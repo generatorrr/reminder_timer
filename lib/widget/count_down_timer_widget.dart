@@ -43,7 +43,7 @@ class _CountDownTimerState extends State<CountDownTimer>
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: timerEntity.interval),
+      duration: Duration(minutes: timerEntity.interval),
     );
   }
 
@@ -125,7 +125,7 @@ class _CountDownTimerState extends State<CountDownTimer>
                                     controller.reset();
                                   } else {
                                     AndroidAlarmManager.periodic(
-                                        Duration(seconds: timerEntity.interval),
+                                        Duration(minutes: timerEntity.interval),
                                         timerEntity.id!,
                                         showNotification,
                                         allowWhileIdle: true, wakeup: true);

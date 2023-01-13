@@ -28,32 +28,55 @@ class FavouritesPage extends StatelessWidget {
                 '${savedTimers.length} favorites:'),
           ),
           for (var timer in savedTimers)
-            ListTile(
-              leading: ElevatedButton.icon(
-                onPressed: () =>
-                    Navigator.push(
+            Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                bottom: BorderSide(width: 1, color: Colors.black.withOpacity(0.2)),
+              )),
+              child: Row(
+                children: <Widget>[
+                  ElevatedButton.icon(
+                    onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
                                 MyHomePage.allArgsConstructor(timer, 0))),
-                icon: Icon(Icons.edit),
-                label: Text(''),
+                    icon: Icon(Icons.edit),
+                    label: Text(''),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () => {
+                      appState
+                          .addActiveTimer(ActiveTimer(timer, timer.interval)),
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyHomePage.goToPage(2)))
+                    },
+                    icon: Icon(Icons.start),
+                    label: Text(''),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Wrap(
+                      children: [
+                        Text(
+                          timer.name,
+                          softWrap: true,
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.w400),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
-              title: Text(timer.name),
-              trailing: ElevatedButton.icon(
-                onPressed: () =>
-                {
-                  appState.addActiveTimer(ActiveTimer(timer, timer.interval)),
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              MyHomePage.goToPage(2)))
-                },
-                icon: Icon(Icons.start),
-                label: Text('Start timer'),
-              ),
-            ),
+            )
         ],
       ),
     );

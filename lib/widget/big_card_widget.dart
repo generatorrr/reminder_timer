@@ -33,7 +33,7 @@ class _BigCardState extends State<BigCard> {
         children: [
           Text('Set up your timer'),
           Card(
-            color: Colors.cyan[100],
+            color: Theme.of(context).colorScheme.primaryContainer,
             child: Padding(
                 padding: const EdgeInsets.all(50.0),
                 child: Column(
@@ -117,6 +117,7 @@ class _BigCardState extends State<BigCard> {
                     ? Icon(Icons.update)
                     : Icon(Icons.save_rounded),
                 label: Text(widget.timer?.id != null ? 'Update' : 'Save'),
+
               ),
               SizedBox(width: 10),
               ElevatedButton.icon(

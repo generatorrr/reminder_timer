@@ -12,17 +12,17 @@ class MyHomePage extends StatefulWidget {
 
   MyHomePage() {
     timer = TimerEntity(name: '', description: '', interval: 0);
-    selectedIndex = 1;
+    selectedIndex = 0;
   }
 
   MyHomePage.goToPage(this.selectedIndex) {
     timer ??= TimerEntity(name: '', description: '', interval: 0);
-    selectedIndex ??= 1;
+    selectedIndex ??= 0;
   }
 
   MyHomePage.allArgsConstructor(this.timer, this.selectedIndex) {
     timer ??= TimerEntity(name: '', description: '', interval: 0);
-    selectedIndex ??= 1;
+    selectedIndex ??= 0;
   }
   @override
   State<MyHomePage> createState() => _MyHomePageState(selectedIndex!, timer!);
@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  int selectedIndex = 1;
+  int selectedIndex = 0;
   TimerEntity timer;
 
 
@@ -43,39 +43,38 @@ class _MyHomePageState extends State<MyHomePage> {
     return LayoutBuilder(
         builder: (context, constraints) {
           return Scaffold(
-            body: Row(
+            body: Column(
               children: [
-                SafeArea(
-                  child: NavigationRail(
-                    extended: constraints.maxWidth >= 600,
-                    destinations: [
-                      NavigationRailDestination(
-                        icon: Icon(Icons.home),
-                        label: Text('Home'),
-                      ),
-                      NavigationRailDestination(
-                        icon: Icon(Icons.savings_sharp),
-                        label: Text('Saved'),
-                      ),
-                      NavigationRailDestination(
-                        icon: Icon(Icons.timer),
-                        label: Text('Active Timers'),
-                      ),
-                    ],
-                    selectedIndex: selectedIndex,
-                    onDestinationSelected: (value) {
-
-                      setState(() {
-                        selectedIndex = value;
-                      });
-                    },
-                  ),
-                ),
                 Expanded(
                   child: Container(
                     color: Theme.of(context).colorScheme.primaryContainer,
                     child: page,
                   ),
+                ),
+                BottomNavigationBar(
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.savings_sharp),
+                      label: 'Saved',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add_alarm_outlined),
+                      label: 'Create',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.timer),
+                      label: 'Active Timers',
+                    ),
+                  ],
+                  unselectedItemColor: Colors.grey,
+                  selectedItemColor: Colors.indigoAccent,
+                  currentIndex: selectedIndex,
+                  onTap: (value) {
+
+                    setState(() {
+                      selectedIndex = value;
+                    });
+                  },
                 ),
               ],
             ),
@@ -88,10 +87,10 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = TimerCreationPage(timer);
+        page = FavouritesPage();
         break;
       case 1:
-        page = FavouritesPage();
+        page = TimerCreationPage(timer);
         break;
       case 2:
         page = ActiveTimersPage();
